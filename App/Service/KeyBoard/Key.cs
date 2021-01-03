@@ -76,6 +76,26 @@ namespace App.Service.KeyBoard
                 MouseOperations.SetCursorPosition(pos.X, pos.Y);
             }
 
+            if (keyCode == (int)Keys.W)
+            {
+                var p1 = Cursor.Position;
+                int dddd = 100;
+                Clicker.LeftClick(p1.X, p1.Y, delayNumber + dddd);
+                Clicker.LeftClick((p1.X - 63), (p1.Y - 33), delayNumber + dddd);
+                Clicker.LeftClick((p1.X + 66), (p1.Y - 33), delayNumber + dddd);
+                Clicker.LeftClick((p1.X), (p1.Y - 66), delayNumber + dddd);
+            }
+
+            if (keyCode == (int)Keys.E)
+            {
+                int dddd = 100;
+                var p1 = Cursor.Position;
+                Clicker.LeftClick(p1.X, p1.Y, delayNumber + dddd);
+                Clicker.LeftClick((p1.X + 63), (p1.Y - 33), delayNumber + dddd);
+                Clicker.LeftClick((p1.X + 128), (p1.Y), delayNumber + dddd);
+                Clicker.LeftClick((p1.X + 66), (p1.Y + 33), delayNumber + dddd);
+            }
+
         }
     }
 }

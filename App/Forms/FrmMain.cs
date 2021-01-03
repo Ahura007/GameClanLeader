@@ -252,6 +252,12 @@ namespace App.Forms
             if (keyCode == (int)Keys.S)
                 Key.SendKey(keyCode, Setting.DelayS);
 
+            if (keyCode == (int)Keys.W)
+                Key.SendKey(keyCode, Setting.DelayS);
+
+            if (keyCode == (int)Keys.E)
+                Key.SendKey(keyCode, Setting.DelayS);
+
             if (keyCode == (int)Keys.NumPad3)
                 AssassinFlag.Move(Setting.FlagDelay);
 
@@ -341,6 +347,8 @@ namespace App.Forms
             RegisterHotKey(Handle, (int)Keys.B, 0, (int)Keys.B);
             RegisterHotKey(Handle, (int)Keys.I, 0, (int)Keys.I);
             RegisterHotKey(Handle, (int)Keys.S, 0, (int)Keys.S);
+            RegisterHotKey(Handle, (int)Keys.W, 0, (int)Keys.W);
+            RegisterHotKey(Handle, (int)Keys.E, 0, (int)Keys.E);
             RegisterHotKey(Handle, (int)Keys.NumPad1, 0, (int)Keys.NumPad1);
             RegisterHotKey(Handle, (int)Keys.NumPad2, 0, (int)Keys.NumPad2);
             RegisterHotKey(Handle, (int)Keys.NumPad3, 0, (int)Keys.NumPad3);
@@ -370,6 +378,7 @@ namespace App.Forms
             UnregisterHotKey(Handle, (int)Keys.I);
 
             UnregisterHotKey(Handle, (int)Keys.E);
+            UnregisterHotKey(Handle, (int)Keys.W);
 
 
 
