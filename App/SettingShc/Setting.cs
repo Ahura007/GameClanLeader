@@ -11,6 +11,7 @@ namespace App.SettingShc
         public int DelayS { get; set; }
         public string Rules { get; set; }
         public int MouseSpeed { get; set; }
+        public int  Direction { get; set; }
     }
 
 

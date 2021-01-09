@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Sockets;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +21,7 @@ namespace App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             var isExpired = CheckDate();
             if (isExpired)
                 Application.Run(new FrmExpired());
@@ -28,11 +30,40 @@ namespace App
         }
 
 
+     
+
+
+        public static DateTime GetNetworkTime(string ntpServer = "pool.ntp.org", int timeout = 3000)
+        {
+            var ntpData = new byte[48];
+            ntpData[0] = 0x1B; //LeapIndicator = 0 (no warning), VersionNum = 3 (IPv4 only), Mode = 3 (Client Mode)
+
+            var addresses = Dns.GetHostEntry(ntpServer).AddressList;
+            var ipEndPoint = new IPEndPoint(addresses[0], 123);
+
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
+            {
+                socket.Connect(ipEndPoint);
+                socket.ReceiveTimeout = timeout;
+                socket.Send(ntpData);
+                socket.Receive(ntpData);
+                socket.Close();
+            }
+
+            var intPart = (ulong)ntpData[40] << 24 | (ulong)ntpData[41] << 16 | (ulong)ntpData[42] << 8 | (ulong)ntpData[43];
+            var fractalPart = (ulong)ntpData[44] << 24 | (ulong)ntpData[45] << 16 | (ulong)ntpData[46] << 8 | (ulong)ntpData[47];
+
+            var milliseconds = (intPart * 1000) + (fractalPart * 1000 / (1L << 32));
+            var utcDateTime = new DateTime(1900, 1, 1).AddMilliseconds((long)milliseconds);
+
+            return utcDateTime.ToLocalTime();
+        }
+
         public static bool CheckDate()
         {
             try
             {
-                var currentDate = GetDateTime().CurrentDateTime;
+                var currentDate = GetNetworkTime();
                 var expiryDate = DateTime.Parse("05/05/2021");
                 RemainDay = (expiryDate - currentDate).Days;
 

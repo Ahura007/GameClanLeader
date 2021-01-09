@@ -10,7 +10,7 @@ namespace App.Service
     {
         public static void Move(int delay)
         {
-            NormalChat.ShortCutKey(Keys.N, delay);
+            ShortcutManager.CtrlWith(Keys.N, delay);
             Thread.Sleep(delay);
             SendKeys.SendWait(4.ToString());
             Thread.Sleep(delay);

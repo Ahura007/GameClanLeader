@@ -27,7 +27,7 @@ namespace App.Forms
         public ControlMode ControlMode { get; set; } = ControlMode.PikeSin;
         public Setting Setting { get; set; }
         public List<Point> Corner { get; set; }
-        public List<Point> ValidPoint { get; set; }
+
         private GlobalHotKey Rules { get; set; }
         private GlobalHotKey RemoveGroup { get; set; }
         private GlobalHotKey AddGroup { get; set; }
@@ -47,14 +47,8 @@ namespace App.Forms
             Setting = SettingService.GetSetting();
             UpdateUi(Setting);
 
-            Corner = new List<Point>()
-            {
-                new Point(159, 732),
-                new Point(192, 730),
-                new Point(162, 760),
-                new Point(192, 759),
-            };
-            ValidPoint = Pip.PointInPolygan(Corner);
+
+
             KeyPreview = true;
 
             RegisterKey();
@@ -96,7 +90,7 @@ namespace App.Forms
                 {
                     var sim = new InputSimulator();
                     sim.Keyboard.Sleep(1000)
-                        .TextEntry(txtRules.Text)
+                        .TextEntry(Setting.Rules)
                         .Sleep(1000);
                 }
 
@@ -124,9 +118,22 @@ namespace App.Forms
                 }
             }
 
- 
+            if (keyCode == (int)Keys.S)
+                Key.SendKey(keyCode, Setting);
 
- 
+            if (keyCode == (int)Keys.W)
+                Key.SendKey(keyCode, Setting);
+
+            if (keyCode == (int)Keys.A)
+                Key.SendKey(keyCode, Setting);
+
+            if (keyCode == (int)Keys.D)
+                Key.SendKey(keyCode, Setting);
+
+            if (keyCode == (int)Keys.Q)
+                Key.SendKey(keyCode, Setting);
+
+
 
 
             if (keyCode == (int)Keys.F6)
@@ -139,7 +146,7 @@ namespace App.Forms
                 var choosePattern = pattern[choosePatternNumber];
                 var readPattern = File.ReadAllText(choosePattern);
                 var containPattern = JsonConvert.DeserializeObject<List<Point>>(readPattern);
-
+                var c = Cursor.Position;
                 foreach (Point point in containPattern)
                 {
                     Clicker.LeftClick(20);
@@ -223,40 +230,34 @@ namespace App.Forms
             }
 
             if (keyCode == (int)Keys.NumPad1)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.Add)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.NumPad5)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.N)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.G)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.M)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.H)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.B)
-                Key.SendKey(keyCode, Setting.CompressDelay);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.I)
-                Key.SendKey(keyCode, Setting.CompressDelay);
-
-            if (keyCode == (int)Keys.S)
-                Key.SendKey(keyCode, Setting.DelayS);
-
-            if (keyCode == (int)Keys.W)
-                Key.SendKey(keyCode, Setting.DelayS);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.E)
-                Key.SendKey(keyCode, Setting.DelayS);
+                Key.SendKey(keyCode, Setting);
 
             if (keyCode == (int)Keys.NumPad3)
                 AssassinFlag.Move(Setting.FlagDelay);
@@ -327,71 +328,23 @@ namespace App.Forms
         }
         private void RegisterKey()
         {
-            RegisterHotKey(Handle, (int)MouseButtons.Middle, 0, (int)MouseButtons.Middle);
-            RegisterHotKey(Handle, (int)MouseButtons.XButton1, 0, (int)MouseButtons.XButton1);
-            RegisterHotKey(Handle, (int)MouseButtons.XButton2, 0, (int)MouseButtons.XButton2);
-            RegisterHotKey(Handle, (int)MouseButtons.None, 0, (int)MouseButtons.None);
- 
+            var keys = RegisterKeys.GetKeys();
 
-            RegisterHotKey(Handle, (int)Keys.PageDown, 0, (int)Keys.PageDown);
-            RegisterHotKey(Handle, (int)Keys.Delete, 0, (int)Keys.Delete);
-            RegisterHotKey(Handle, (int)Keys.End, 0, (int)Keys.End);
-            RegisterHotKey(Handle, (int)Keys.E, 0, (int)Keys.E);
-            RegisterHotKey(Handle, (int)Keys.F4, 0, (int)Keys.F4);
-            RegisterHotKey(Handle, (int)Keys.F5, 0, (int)Keys.F5);
-            RegisterHotKey(Handle, (int)Keys.F6, 0, (int)Keys.F6);
-            RegisterHotKey(Handle, (int)Keys.N, 0, (int)Keys.N);
-            RegisterHotKey(Handle, (int)Keys.G, 0, (int)Keys.G);
-            RegisterHotKey(Handle, (int)Keys.H, 0, (int)Keys.H);
-            RegisterHotKey(Handle, (int)Keys.M, 0, (int)Keys.M);
-            RegisterHotKey(Handle, (int)Keys.B, 0, (int)Keys.B);
-            RegisterHotKey(Handle, (int)Keys.I, 0, (int)Keys.I);
-            RegisterHotKey(Handle, (int)Keys.S, 0, (int)Keys.S);
-            RegisterHotKey(Handle, (int)Keys.W, 0, (int)Keys.W);
-            RegisterHotKey(Handle, (int)Keys.E, 0, (int)Keys.E);
-            RegisterHotKey(Handle, (int)Keys.NumPad1, 0, (int)Keys.NumPad1);
-            RegisterHotKey(Handle, (int)Keys.NumPad2, 0, (int)Keys.NumPad2);
-            RegisterHotKey(Handle, (int)Keys.NumPad3, 0, (int)Keys.NumPad3);
-            RegisterHotKey(Handle, (int)Keys.NumPad5, 0, (int)Keys.NumPad5);
-            RegisterHotKey(Handle, (int)Keys.Decimal, 0, (int)Keys.Decimal);
-            RegisterHotKey(Handle, (int)Keys.Insert, 0, (int)Keys.Insert);
-            RegisterHotKey(Handle, (int)Keys.Divide, 0, (int)Keys.Divide);
-            RegisterHotKey(Handle, (int)Keys.Multiply, 0, (int)Keys.Multiply);
-            RegisterHotKey(Handle, (int)Keys.Add, 0, (int)Keys.Add);
-            RegisterHotKey(Handle, (int)Keys.Subtract, 0, (int)Keys.Subtract);
+            foreach (var keyse in keys)
+            {
+                RegisterHotKey(Handle, (int)keyse, 0, (int)keyse);
+            }
         }
+
+
         private void UnRegisterKey()
         {
-            UnregisterHotKey(Handle, (int)Keys.Delete);
-            UnregisterHotKey(Handle, (int)Keys.End);
-            UnregisterHotKey(Handle, (int)Keys.PageDown);
-
-            UnregisterHotKey(Handle, (int)Keys.F4);
-            UnregisterHotKey(Handle, (int)Keys.F5);
-            UnregisterHotKey(Handle, (int)Keys.F8);
-            UnregisterHotKey(Handle, (int)Keys.N);
-            UnregisterHotKey(Handle, (int)Keys.G);
-            UnregisterHotKey(Handle, (int)Keys.S);
-            UnregisterHotKey(Handle, (int)Keys.H);
-            UnregisterHotKey(Handle, (int)Keys.M);
-            UnregisterHotKey(Handle, (int)Keys.B);
-            UnregisterHotKey(Handle, (int)Keys.I);
-
-            UnregisterHotKey(Handle, (int)Keys.E);
-            UnregisterHotKey(Handle, (int)Keys.W);
-
-
-
-            UnregisterHotKey(Handle, (int)Keys.Add);
-            UnregisterHotKey(Handle, (int)Keys.NumPad1);
-            UnregisterHotKey(Handle, (int)Keys.NumPad2);
-            UnregisterHotKey(Handle, (int)Keys.NumPad3);
-            UnregisterHotKey(Handle, (int)Keys.NumPad5);
-            UnregisterHotKey(Handle, (int)Keys.Decimal);
-            UnregisterHotKey(Handle, (int)Keys.Divide);
-            UnregisterHotKey(Handle, (int)Keys.Add);
-            UnregisterHotKey(Handle, (int)Keys.Subtract);
-            UnregisterHotKey(Handle, (int)Keys.Multiply);
+            var keys = RegisterKeys.GetKeys();
+            keys.Remove(Keys.Insert);
+            foreach (var keyse in keys)
+            {
+                UnregisterHotKey(Handle, (int)keyse);
+            }
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -399,9 +352,10 @@ namespace App.Forms
             s.CompressDelay = Convert.ToInt32(txtArmyCompressDelay.Text);
             s.DelayS = Convert.ToInt32(txtDelayS.Text);
             s.FlagDelay = Convert.ToInt32(txtFlagDelay.Text);
-            s.Rules = txtRules.Text;
-            s.Rules = txtRules.Text;
+            //   s.Rules = txtRules.Text;
             s.MouseSpeed = Convert.ToInt32(txtMouseSpeed.Text);
+            s.Direction = Convert.ToInt32(txtDirection.Text);
+
             var config = JsonConvert.SerializeObject(s);
             using (var sw = File.CreateText(Environment.CurrentDirectory + "\\Setting.txt"))
             {
@@ -422,7 +376,7 @@ namespace App.Forms
                 txtArmyCompressDelay.Text = s.CompressDelay.ToString();
                 txtFlagDelay.Text = s.FlagDelay.ToString();
                 txtDelayS.Text = s.DelayS.ToString();
-                txtRules.Text = s.Rules?.ToString();
+                //txtRules.Text = s.Rules?.ToString();
                 txtMouseSpeed.Text = s.MouseSpeed.ToString();
             }
         }
@@ -433,6 +387,12 @@ namespace App.Forms
             {
                 File.Delete(address);
             }
+        }
+
+        private void setRulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //FrmSetRules setRules = new FrmSetRules();
+            //setRules.ShowDialog();
         }
     }
 }

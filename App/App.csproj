@@ -65,6 +65,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\FrmSetRules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSetRules.Designer.cs">
+      <DependentUpon>FrmSetRules.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmExpired.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +93,7 @@
     <Compile Include="Service\KeyBoard\HokManager\NativeMethods.cs" />
     <Compile Include="Service\KeyBoard\HokManager\Win32.cs" />
     <Compile Include="Service\KeyBoard\Key.cs" />
+    <Compile Include="Service\KeyBoard\RegisterKeys.cs" />
     <Compile Include="Service\Voice\Voice.cs" />
     <Compile Include="SettingShc\Setting.cs" />
     <Compile Include="Logger\GlobalEventProvider.cs">
@@ -101,7 +108,7 @@
     <Compile Include="Service\ShieldMaker\MouseMoves.cs" />
     <Compile Include="Service\ShieldMaker\Pip.cs" />
     <Compile Include="Service\ShieldMaker\RandomShieldMaker.cs" />
-    <Compile Include="Service\KeyBoard\NormalChat.cs" />
+    <Compile Include="Service\KeyBoard\ShortcutManager.cs" />
     <Compile Include="Service\Mouse\Clicker.cs" />
     <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
@@ -112,6 +119,9 @@
     <Compile Include="Service\Mouse\MouseOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FrmSetRules.resx">
+      <DependentUpon>FrmSetRules.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmExpired.resx">
       <DependentUpon>FrmExpired.cs</DependentUpon>
     </EmbeddedResource>
