@@ -22,6 +22,14 @@ namespace App.SettingShc
     }
 
 
+
+
+    public enum ControlModASAS
+    {
+        PikeSin,
+        Kn
+    }
+
     public class SettingService
     {
         public static void Initialize()
